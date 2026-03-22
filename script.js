@@ -1,12 +1,12 @@
 const savoirs = {
-  "1": ["Pulsation", "Rythmes simples", "Voix parlée/chantée", "Instruments de classe"],
-  "2": ["Lecture rythmique", "Notes (do à sol)", "Ensemble instrumental", "Structure ABA"],
-  "3": ["Gammes", "Accords", "Création musicale", "Analyse musicale"]
+  "1": ["Pulsation", "Rythmes simples", "Voix", "Instruments"],
+  "2": ["Lecture rythmique", "Notes do-sol", "Jeu d'ensemble", "Forme ABA"],
+  "3": ["Gammes", "Accords", "Creation musicale", "Analyse"]
 };
 
 const univers = [
-  "Quête du dragon du rythme",
-  "Forteresse des mélodies",
+  "Quete du dragon du rythme",
+  "Forteresse des melodies",
   "Caverne des instruments",
   "Tour des compositeurs"
 ];
@@ -16,33 +16,31 @@ function genererPlan() {
   const periodes = parseInt(document.getElementById("periodes").value);
 
   let plan = "";
-  let compCycle = [];
 
-  // Répartition réelle PFEQ
   let totalC1 = Math.round(periodes * 0.35);
   let totalC2 = Math.round(periodes * 0.35);
   let totalC3 = periodes - totalC1 - totalC2;
 
-  compCycle = [
-    ...Array(totalC1).fill("Créer"),
-    ...Array(totalC2).fill("Interpréter"),
-    ...Array(totalC3).fill("Apprécier")
-  ];
+  let compCycle = [];
 
-  // Mélanger pour éviter blocs
-  compCycle.sort(() => Math.random() - 0.5);
+  for (let i = 0; i < totalC1; i++) compCycle.push("Créer");
+  for (let i = 0; i < totalC2; i++) compCycle.push("Interpréter");
+  for (let i = 0; i < totalC3; i++) compCycle.push("Apprécier");
+
+  // Mélange simple
+  compCycle.sort(function() {
+    return Math.random() - 0.5;
+  });
 
   for (let i = 0; i < periodes; i++) {
     let savoir = savoirs[cycle][i % savoirs[cycle].length];
     let theme = univers[i % univers.length];
 
-    plan += `Période ${i + 1}
-Compétence : ${compCycle[i]}
-Savoir : ${savoir}
-Mission : ${theme}
-XP : +10
-
-`;
+    plan += "Période " + (i + 1) + "\n";
+    plan += "Compétence : " + compCycle[i] + "\n";
+    plan += "Savoir : " + savoir + "\n";
+    plan += "Mission : " + theme + "\n";
+    plan += "XP : +10\n\n";
   }
 
   document.getElementById("output").textContent = plan;
@@ -54,64 +52,31 @@ function genererSAE() {
   let savoir = savoirs[cycle][Math.floor(Math.random() * savoirs[cycle].length)];
   let theme = univers[Math.floor(Math.random() * univers.length)];
 
-  let sae = `
-SAÉ - ${theme}
+  let sae = "";
 
-Intention pédagogique :
-Développer la compétence musicale à travers une situation ludique.
+  sae += "SAE - " + theme + "\n\n";
 
-Compétences :
-- Créer
-- Interpréter
+  sae += "Intention pédagogique :\n";
+  sae += "Développer la compétence musicale.\n\n";
 
-Savoir essentiel :
-- ${savoir}
+  sae += "Compétences :\n- Créer\n- Interpréter\n\n";
 
-Déroulement :
+  sae += "Savoir essentiel :\n- " + savoir + "\n\n";
 
-Période 1 :
-Exploration et découverte
+  sae += "Déroulement :\n\n";
+  sae += "Période 1 : Exploration\n";
+  sae += "Période 2 : Pratique\n";
+  sae += "Période 3 : Création\n";
+  sae += "Période 4 : Présentation\n\n";
 
-Période 2 :
-Pratique guidée
+  sae += "Évaluation :\n";
+  sae += "Créer (35%)\nInterpréter (35%)\nApprécier (30%)\n\n";
 
-Période 3 :
-Création / collaboration
-
-Période 4 :
-Présentation finale
-
-Évaluation :
-
-Créer (35%) :
-- Originalité
-- Engagement
-
-Interpréter (35%) :
-- Précision
-- Technique
-
-Apprécier (30%) :
-- Réflexion
-- Participation
-
---- CLASSROOMSCREEN ---
-
-Objectif :
-Maîtriser ${savoir}
-
-Matériel :
-Instruments / iPad / voix
-
-Étapes :
-1. Échauffement
-2. Pratique
-3. Défi
-4. Retour
-
-Consigne :
-Réussir la mission : ${theme}
-`;
+  sae += "--- CLASSROOMSCREEN ---\n\n";
+  sae += "Objectif : Maîtriser " + savoir + "\n";
+  sae += "Matériel : Instruments / iPad\n";
+  sae += "Étapes :\n1. Échauffement\n2. Pratique\n3. Défi\n4. Retour\n";
+  sae += "Consigne : " + theme;
 
   document.getElementById("output").textContent = sae;
 }
